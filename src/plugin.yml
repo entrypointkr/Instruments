@@ -1,0 +1,9 @@
+main: instruments.Instruments
+name: Instruments
+version: '0.1'
+description: Adds various instruments to your server
+author: CupOfCode
+api-version: 1.14
+commands:
+  instruments:
+    description: play an instruments
