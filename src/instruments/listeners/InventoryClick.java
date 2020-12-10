@@ -19,6 +19,8 @@ public class InventoryClick implements Listener {
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
+        if(e.getClickedInventory() == null) return;
+
         if (e.getView().getTitle().contains("Instruments:")
                 && !e.getClickedInventory().getType().equals(InventoryType.PLAYER)
                 && e.getView().getTopInventory().getType().equals(InventoryType.CHEST)) {
