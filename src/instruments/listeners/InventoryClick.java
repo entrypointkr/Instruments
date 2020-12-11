@@ -3,6 +3,8 @@ package instruments.listeners;
 import instruments.Instrument;
 import instruments.Instruments;
 import instruments.Utils;
+import inventories.ScalesInventory;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -40,7 +42,8 @@ public class InventoryClick implements Listener {
 
             // Player clicked Hotbar Mode
             if(e.getCurrentItem().getType().equals(Material.PAPER)) {
-                instrument.playHotbar();
+                ScalesInventory scalesInventory = new ScalesInventory(instrument.getInstrumentType());
+                scalesInventory.display(p, 0);
                 return;
             }
 
