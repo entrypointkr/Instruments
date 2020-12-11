@@ -29,6 +29,16 @@ public class InstrumentInventory implements InventoryHolder {
         player.openInventory(this.inv);
     }
 
+    public void displayHotbar(Player player) {
+        Inventory playerInv = player.getInventory();
+
+        String[] placeHolder =  { "G", "A", "B", "C", "D", "E", "F", "G", "A" };
+
+        for(int i = 0; i < 9; i++) {
+            playerInv.setItem(i, this.createHotBarInstrument(placeHolder[i]));
+        }
+    }
+
     private void fillBackground() {
         ItemStack backgroundTile = this.createTile(Material.BROWN_STAINED_GLASS_PANE, " ");
         for(int i = 0; i < 54; i++) {
@@ -100,6 +110,15 @@ public class InstrumentInventory implements InventoryHolder {
         itemMeta.setDisplayName(ChatColor.RED + "Hotbar Mode");
         icon.setItemMeta(itemMeta);
         return icon;
+    }
+
+    private ItemStack createHotBarInstrument(String name) {
+        Material instrumentMaterial = this.instrumentType.getMaterial();
+        ItemStack hotBarInstrument = new ItemStack(instrumentMaterial, 1);
+        ItemMeta itemMeta = hotBarInstrument.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.GREEN + name);
+        hotBarInstrument.setItemMeta(itemMeta);
+        return hotBarInstrument;
     }
 
     @Override

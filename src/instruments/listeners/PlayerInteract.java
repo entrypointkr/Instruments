@@ -24,6 +24,10 @@ public class PlayerInteract implements Listener {
 
         if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
 
+        if(instance.getInstrumentManager().containsKey(p)) {
+            return;
+        }
+
         InstrumentType instrumentType = null;
         for(InstrumentType type : InstrumentType.values()) {
             if(type.getMaterial().equals(event.getItem().getType())) {

@@ -1,5 +1,6 @@
 package instruments;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +25,9 @@ public class Utils {
 
     public static void loadInventory(Player player) {
         if(!inventoryMap.containsKey(player)) return;
+
+        clearInventory(player);
+
         Inventory inventory = player.getInventory();
         HashMap<Integer, ItemStack> items = inventoryMap.get(player);
         for(Integer i : items.keySet()) {
@@ -33,4 +37,11 @@ public class Utils {
         inventoryMap.remove(player);
     }
 
+    public static void clearInventory(Player player) {
+        for(int i = 0; i < 36; i++) {
+            if(player.getInventory().getItem(i) != null) {
+                player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            }
+        }
+    }
 }
