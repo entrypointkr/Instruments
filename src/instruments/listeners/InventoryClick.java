@@ -23,29 +23,25 @@ public class InventoryClick implements Listener {
 
         if(e.getClickedInventory() == null) return;
 
+        if(!instance.getInstrumentManager().containsKey(p)) return;
+
+        Instrument instrument = instance.getInstrumentManager().get(p);
+
+        if(instrument.isHotBarMode()) {
+            e.setCancelled(true);
+            return;
+        }
+
         if (e.getView().getTitle().contains("Instruments:")
                 && !e.getClickedInventory().getType().equals(InventoryType.PLAYER)
                 && e.getView().getTopInventory().getType().equals(InventoryType.CHEST)) {
             e.setCancelled(true);
 
-            if(!instance.getInstrumentManager().containsKey(p)) return;
-
-            Instrument instrument = instance.getInstrumentManager().get(p);
             org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument.valueOf(instrument.getInstrumentType().toString());
 
             // Player clicked Hotbar Mode
             if(e.getCurrentItem().getType().equals(Material.PAPER)) {
-                instrument.setHotBarMode(true);
-                Utils.storeInventory(p);
-
-                p.closeInventory();
-
-                // Clear everything but armor
-                for(int i = 0; i < 36; i++) {
-                    if(p.getInventory().getItem(i) != null) {
-                        p.getInventory().setItem(i, new ItemStack(Material.AIR));
-                    }
-                }
+                instrument.playHotbar();
                 return;
             }
 

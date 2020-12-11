@@ -1,6 +1,8 @@
 package instruments;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Instrument {
 
@@ -20,6 +22,18 @@ public class Instrument {
 
     public void play() {
         this.instrumentInventory.display(this.player);
+    }
+
+    public void playHotbar() {
+        this.hotBarMode = true;
+
+        Utils.storeInventory(this.player);
+
+        player.closeInventory();
+
+        // Clear everything but armor
+        Utils.clearInventory(player);
+        this.instrumentInventory.displayHotbar(this.player);
     }
 
     public InstrumentType getInstrumentType() {
