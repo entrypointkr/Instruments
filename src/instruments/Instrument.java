@@ -72,6 +72,10 @@ public class Instrument {
         this.transitioning = transitioning;
     }
 
+    public InstrumentInventory getInstrumentInventory() {
+        return this.instrumentInventory;
+    }
+
     public ScalesInventory getScalesInventory() {
         return this.scalesInventory;
     }

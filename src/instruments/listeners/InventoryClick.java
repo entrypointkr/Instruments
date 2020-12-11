@@ -39,8 +39,16 @@ public class InventoryClick implements Listener {
                 && e.getView().getTopInventory().getType().equals(InventoryType.CHEST)) {
             e.setCancelled(true);
 
+            String itemName = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
+
             if(e.getCurrentItem().getType().equals(Material.PAPER)) {
                 instrument.playScales();
+                return;
+            }
+
+            if(itemName.contains("Chords")) {
+                instrument.getInstrumentInventory().toggleChords();
+                instrument.play();
                 return;
             }
 
