@@ -2,6 +2,7 @@ package instruments.listeners;
 
 import instruments.Instrument;
 import instruments.Instruments;
+import instruments.Scale;
 import instruments.Utils;
 import inventories.ScalesInventory;
 
@@ -38,14 +39,12 @@ public class InventoryClick implements Listener {
                 && e.getView().getTopInventory().getType().equals(InventoryType.CHEST)) {
             e.setCancelled(true);
 
-            org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument.valueOf(instrument.getInstrumentType().toString());
-
-            // Player clicked Hotbar Mode
             if(e.getCurrentItem().getType().equals(Material.PAPER)) {
-                ScalesInventory scalesInventory = new ScalesInventory(instrument.getInstrumentType());
-                scalesInventory.display(p, 0);
+                instrument.playScales();
                 return;
             }
+
+            org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument.valueOf(instrument.getInstrumentType().toString());
 
             int octave = 1;
             if(e.getRawSlot() > 26) octave = 0;
@@ -61,6 +60,43 @@ public class InventoryClick implements Listener {
             if(e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)) {
                 String note = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).charAt(0) + "";
                 p.playNote(p.getLocation(), bukkitInstrument, Note.sharp(octave, Note.Tone.valueOf(note)));
+                return;
+            }
+
+            return;
+        }
+
+        if (e.getView().getTitle().contains("Scales")
+                && !e.getClickedInventory().getType().equals(InventoryType.PLAYER)
+                && e.getView().getTopInventory().getType().equals(InventoryType.CHEST)) {
+            e.setCancelled(true);
+
+            String itemName = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
+
+            if(itemName.contains(instrument.getInstrumentType().toString())) {
+                instrument.play();
+                return;
+            }
+
+            if(e.getCurrentItem().getType().equals(Material.PAPER)) {
+                Scale selectedScale = Scale.getScaleByName(itemName);
+
+                if(selectedScale == null) return;
+
+                instrument.playHotbar(selectedScale);
+                return;
+            }
+
+            if(e.getCurrentItem().getType().equals(Material.ARROW)) {
+                int currPage = instrument.getScalesInventory().getPage();
+                if(itemName.contains("Next")) {
+                    instrument.getScalesInventory().setPage(currPage + 1);
+                } else {
+                    if(currPage != 0) {
+                        instrument.getScalesInventory().setPage(currPage - 1);
+                    }
+                }
+                instrument.playScales();
                 return;
             }
         }

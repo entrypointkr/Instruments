@@ -1,5 +1,6 @@
 package instruments;
 
+import inventories.ScalesInventory;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -15,13 +16,16 @@ public class Instrument {
     private InstrumentType instrumentType;
     private Player player;
     private InstrumentInventory instrumentInventory;
+    private ScalesInventory scalesInventory;
     private Instruments instance = Instruments.getInstance();
     private boolean hotBarMode;
+    private boolean transitioning;
 
     public Instrument(InstrumentType instrumentType, Player player) {
         this.instrumentType = instrumentType;
         this.player = player;
         this.instrumentInventory = new InstrumentInventory(instrumentType);
+        this.scalesInventory = new ScalesInventory(this.instrumentType);
 
         this.instance.getInstrumentManager().put(player, this);
     }
@@ -30,7 +34,7 @@ public class Instrument {
         this.instrumentInventory.display(this.player);
     }
 
-    public void playHotbar() {
+    public void playHotbar(Scale scale) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR,  TextComponent.fromLegacyText(ChatColor.RED + "Press SHIFT to exit hotkey mode."));
 
         this.hotBarMode = true;
@@ -41,7 +45,11 @@ public class Instrument {
 
         // Clear everything but armor
         Utils.clearInventory(player);
-        this.instrumentInventory.displayHotbar(this.player);
+        this.instrumentInventory.displayHotbar(this.player, scale);
+    }
+
+    public void playScales() {
+        this.scalesInventory.display(this.player);
     }
 
     public InstrumentType getInstrumentType() {
@@ -54,5 +62,17 @@ public class Instrument {
 
     public void setHotBarMode(boolean hotBarMode) {
         this.hotBarMode = hotBarMode;
+    }
+
+    public boolean isTransitioning() {
+        return transitioning;
+    }
+
+    public void setTransitioning(boolean transitioning) {
+        this.transitioning = transitioning;
+    }
+
+    public ScalesInventory getScalesInventory() {
+        return this.scalesInventory;
     }
 }

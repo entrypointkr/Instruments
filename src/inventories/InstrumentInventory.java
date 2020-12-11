@@ -1,5 +1,7 @@
 package inventories;
 
+import instruments.Instruments;
+import instruments.Scale;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,10 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import instruments.InstrumentType;
 
+import java.util.ArrayList;
+
 public class InstrumentInventory implements InventoryHolder {
 
     private Inventory inv;
     private InstrumentType instrumentType;
+    private Instruments instance = Instruments.getInstance();
 
     public InstrumentInventory(InstrumentType instrumentType) {
         inv = Bukkit.createInventory(this, 54, "Instruments: " + instrumentType.toString());
@@ -22,22 +27,28 @@ public class InstrumentInventory implements InventoryHolder {
     }
 
     public void display(Player player) {
+        if(!instance.getInstrumentManager().containsKey(player)) return;
+
+        instance.getInstrumentManager().get(player).setTransitioning(true);
+
         this.fillBackground();
         this.fillKeys();
 
         this.inv.setItem(0, this.createInstrumentIcon());
-        this.inv.setItem(8, this.createHotBarModeIcon());
+        this.inv.setItem(8, this.createScalesIcon());
 
         player.openInventory(this.inv);
+
+        instance.getInstrumentManager().get(player).setTransitioning(false);
     }
 
-    public void displayHotbar(Player player) {
+    public void displayHotbar(Player player, Scale scale) {
         Inventory playerInv = player.getInventory();
 
-        String[] placeHolder =  { "G", "A", "B", "C", "D", "E", "F", "G", "A" };
+        ArrayList<String> notes = scale.getNotes();
 
-        for(int i = 0; i < 9; i++) {
-            playerInv.setItem(i, this.createHotBarInstrument(placeHolder[i]));
+        for(int i = 0; i < notes.size(); i++) {
+            playerInv.setItem(i, this.createHotBarInstrument(notes.get(i)));
         }
     }
 
@@ -106,10 +117,10 @@ public class InstrumentInventory implements InventoryHolder {
         return icon;
     }
 
-    private ItemStack createHotBarModeIcon() {
+    private ItemStack createScalesIcon() {
         ItemStack icon = new ItemStack(Material.PAPER, 1);
         ItemMeta itemMeta = icon.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.RED + "Hotbar Mode");
+        itemMeta.setDisplayName(ChatColor.RED + "Scales");
         icon.setItemMeta(itemMeta);
         return icon;
     }
