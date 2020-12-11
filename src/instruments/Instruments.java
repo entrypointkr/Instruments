@@ -3,6 +3,8 @@ package instruments;
 import instruments.commands.InstrumentsCommand;
 import instruments.listeners.InventoryClick;
 import instruments.listeners.InventoryClose;
+import instruments.listeners.PlayerToggleSneak;
+import instruments.listeners.PlayerInteract;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,7 +21,12 @@ public class Instruments extends JavaPlugin {
     public void onEnable() {
         instance = this;
         getCommand("instruments").setExecutor(new InstrumentsCommand());
-        this.registerListeners(new InventoryClick(), new InventoryClose());
+        this.registerListeners(
+                new InventoryClick(),
+                new InventoryClose(),
+                new PlayerInteract(),
+                new PlayerToggleSneak()
+        );
     }
 
     private void registerListeners(Listener... listeners) {
