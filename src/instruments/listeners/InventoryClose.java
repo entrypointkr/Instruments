@@ -17,7 +17,8 @@ public class InventoryClose implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         if(instance.getInstrumentManager().containsKey(player)
-                && !instance.getInstrumentManager().get(player).isHotBarMode()) {
+                && !instance.getInstrumentManager().get(player).isHotBarMode()
+                && !instance.getInstrumentManager().get(player).isTransitioning()) {
             instance.getInstrumentManager().remove(player);
         }
     }

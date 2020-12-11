@@ -1,5 +1,6 @@
 package inventories;
 
+import instruments.Instruments;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,21 +17,27 @@ public class ScalesInventory implements InventoryHolder {
 
 	private Inventory inv;
 	private InstrumentType instrumentType;
+	private Instruments instance = Instruments.getInstance();
+	private int page;
 
 	public ScalesInventory(InstrumentType instrumentType) {
 		inv = Bukkit.createInventory(this, 54, instrumentType.toString() + " Scales");
 		this.instrumentType = instrumentType;
 	}
 
-	public void display(Player player, int page) {
+	public void display(Player player) {
+		instance.getInstrumentManager().get(player).setTransitioning(true);
+
 		fillBackground();
-		fillScales(page);
+		fillScales(this.page);
 
 		inv.setItem(0, createInstrumentIcon());
 		inv.setItem(45, createTile(Material.ARROW, "Previous Page"));
-		inv.setItem(53, createTile(Material.ARROW, "Previous Page"));
+		inv.setItem(53, createTile(Material.ARROW, "Next Page"));
 
 		player.openInventory(this.inv);
+
+		instance.getInstrumentManager().get(player).setTransitioning(false);
 	}
 
 	private void fillBackground() {
@@ -66,6 +73,14 @@ public class ScalesInventory implements InventoryHolder {
 		itemMeta.setDisplayName(ChatColor.RED + this.instrumentType.toString());
 		icon.setItemMeta(itemMeta);
 		return icon;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 	@Override
