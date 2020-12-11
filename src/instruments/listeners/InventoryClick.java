@@ -3,6 +3,7 @@ package instruments.listeners;
 import instruments.Instrument;
 import instruments.Instruments;
 import instruments.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Note;
@@ -20,7 +21,6 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-
         if(e.getClickedInventory() == null) return;
 
         if(!instance.getInstrumentManager().containsKey(p)) return;
@@ -28,7 +28,6 @@ public class InventoryClick implements Listener {
         Instrument instrument = instance.getInstrumentManager().get(p);
 
         if(instrument.isHotBarMode()) {
-            e.setCancelled(true);
             return;
         }
 

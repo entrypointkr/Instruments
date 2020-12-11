@@ -1,10 +1,7 @@
 package instruments;
 
 import instruments.commands.InstrumentsCommand;
-import instruments.listeners.InventoryClick;
-import instruments.listeners.InventoryClose;
-import instruments.listeners.PlayerToggleSneak;
-import instruments.listeners.PlayerInteract;
+import instruments.listeners.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +22,9 @@ public class Instruments extends JavaPlugin {
                 new InventoryClick(),
                 new InventoryClose(),
                 new PlayerInteract(),
-                new PlayerToggleSneak()
+                new PlayerToggleSneak(),
+                new PlayerDrop(),
+                new PlayerPickup()
         );
     }
 
