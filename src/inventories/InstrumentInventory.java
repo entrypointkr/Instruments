@@ -20,6 +20,7 @@ public class InstrumentInventory implements InventoryHolder {
     private Inventory inv;
     private InstrumentType instrumentType;
     private Instruments instance = Instruments.getInstance();
+    private boolean chordsEnabled;
 
     public InstrumentInventory(InstrumentType instrumentType) {
         inv = Bukkit.createInventory(this, 54, "Instruments: " + instrumentType.toString());
@@ -35,6 +36,7 @@ public class InstrumentInventory implements InventoryHolder {
         this.fillKeys();
 
         this.inv.setItem(0, this.createInstrumentIcon());
+        this.inv.setItem(7, this.createChordsIcon());
         this.inv.setItem(8, this.createScalesIcon());
 
         player.openInventory(this.inv);
@@ -46,9 +48,14 @@ public class InstrumentInventory implements InventoryHolder {
         Inventory playerInv = player.getInventory();
 
         ArrayList<String> notes = scale.getNotes();
+        ArrayList<String> missingNotes = scale.getMissingNotes();
 
         for(int i = 0; i < notes.size(); i++) {
             playerInv.setItem(i, this.createHotBarInstrument(notes.get(i)));
+        }
+
+        for(int i = 0; i < missingNotes.size(); i++) {
+            playerInv.setItem(i + 9, this.createHotBarInstrument(missingNotes.get(i)));
         }
     }
 
@@ -125,6 +132,17 @@ public class InstrumentInventory implements InventoryHolder {
         return icon;
     }
 
+    private ItemStack createChordsIcon() {
+        Material mat = Material.LIME_STAINED_GLASS_PANE;
+        if(!this.chordsEnabled) mat = Material.RED_STAINED_GLASS_PANE;
+
+        ItemStack icon = new ItemStack(mat, 1);
+        ItemMeta itemMeta = icon.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.RED + "Chords");
+        icon.setItemMeta(itemMeta);
+        return icon;
+    }
+
     private ItemStack createHotBarInstrument(String name) {
         Material instrumentMaterial = this.instrumentType.getMaterial();
         ItemStack hotBarInstrument = new ItemStack(instrumentMaterial, 1);
@@ -132,6 +150,10 @@ public class InstrumentInventory implements InventoryHolder {
         itemMeta.setDisplayName(ChatColor.GREEN + name);
         hotBarInstrument.setItemMeta(itemMeta);
         return hotBarInstrument;
+    }
+
+    public void toggleChords() {
+        this.chordsEnabled = !this.chordsEnabled;
     }
 
     @Override

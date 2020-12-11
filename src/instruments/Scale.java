@@ -37,6 +37,17 @@ public enum Scale {
 		
 		return notes;
 	}
+
+	public ArrayList<String> getMissingNotes() {
+		ArrayList<String> currNotes = this.getNotes();
+		ArrayList<String> missingNotes = new ArrayList<>();
+		for(int i = 0; i < notes.length; i++) {
+			if(!currNotes.contains(notes[i])) {
+				missingNotes.add(notes[i]);
+			}
+		}
+		return missingNotes;
+	}
 	
 	public int getIndexOfNote(String note) {
 		for (int i = 0; i < notes.length; i++) {
