@@ -24,6 +24,7 @@ public class InstrumentInventory implements InventoryHolder {
         this.fillKeys();
 
         this.inv.setItem(0, this.createInstrumentIcon());
+        this.inv.setItem(8, this.createHotBarModeIcon());
 
         player.openInventory(this.inv);
     }
@@ -89,6 +90,14 @@ public class InstrumentInventory implements InventoryHolder {
         ItemStack icon = new ItemStack(Material.RED_WOOL, 1);
         ItemMeta itemMeta = icon.getItemMeta();
         itemMeta.setDisplayName(ChatColor.RED + this.instrumentType.toString());
+        icon.setItemMeta(itemMeta);
+        return icon;
+    }
+
+    private ItemStack createHotBarModeIcon() {
+        ItemStack icon = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = icon.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.RED + "Hotbar Mode");
         icon.setItemMeta(itemMeta);
         return icon;
     }

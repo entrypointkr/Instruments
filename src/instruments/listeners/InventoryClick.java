@@ -2,6 +2,7 @@ package instruments.listeners;
 
 import instruments.Instrument;
 import instruments.Instruments;
+import instruments.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Note;
@@ -10,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.ItemStack;
 
 public class InventoryClick implements Listener {
 
@@ -30,6 +32,22 @@ public class InventoryClick implements Listener {
 
             Instrument instrument = instance.getInstrumentManager().get(p);
             org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument.valueOf(instrument.getInstrumentType().toString());
+
+            // Player clicked Hotbar Mode
+            if(e.getCurrentItem().getType().equals(Material.PAPER)) {
+                instrument.setHotBarMode(true);
+                Utils.storeInventory(p);
+
+                p.closeInventory();
+
+                // Clear everything but armor
+                for(int i = 0; i < 36; i++) {
+                    if(p.getInventory().getItem(i) != null) {
+                        p.getInventory().setItem(i, new ItemStack(Material.AIR));
+                    }
+                }
+                return;
+            }
 
             int octave = 1;
             if(e.getRawSlot() > 26) octave = 0;

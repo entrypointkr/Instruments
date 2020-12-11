@@ -8,6 +8,7 @@ public class Instrument {
     private Player player;
     private InstrumentInventory instrumentInventory;
     private Instruments instance = Instruments.getInstance();
+    private boolean hotBarMode;
 
     public Instrument(InstrumentType instrumentType, Player player) {
         this.instrumentType = instrumentType;
@@ -23,5 +24,13 @@ public class Instrument {
 
     public InstrumentType getInstrumentType() {
         return this.instrumentType;
+    }
+
+    public boolean isHotBarMode() {
+        return hotBarMode;
+    }
+
+    public void setHotBarMode(boolean hotBarMode) {
+        this.hotBarMode = hotBarMode;
     }
 }
