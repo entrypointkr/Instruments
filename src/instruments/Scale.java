@@ -21,7 +21,7 @@ public enum Scale {
 	public ArrayList<String> getNotes() {
 		ArrayList<String> notes = new ArrayList<String>();
 		String name = getName();
-		int position = getIndexOfNote(getName().substring(0, name.indexOf(" ") + 1));
+		int position = getIndexOfNote(getName().substring(0, name.indexOf(" ")));
 		int[] jumps = new int[7];
 		
 		switch (this.toString().substring(this.toString().indexOf("_") + 1)) {
@@ -32,7 +32,7 @@ public enum Scale {
 		
 		for (int jump : jumps) {
 			position += jump;
-			notes.add(this.notes[position]);
+			notes.add(this.notes[position % this.notes.length]);
 		}
 		
 		return notes;
