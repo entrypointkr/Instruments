@@ -26,7 +26,7 @@ public enum Scale {
 	public ArrayList<String> getNotes() {
 		ArrayList<String> notes = new ArrayList<String>();
 		String name = getName();
-		int position = getIndexOfNote(getName().substring(0, name.indexOf(" ")));
+		int position = Utils.getIndexOfNote(getName().substring(0, name.indexOf(" ")));
 		int[] jumps = new int[7];
 		
 		switch (this.toString().substring(this.toString().indexOf("_") + 1)) {
@@ -61,15 +61,6 @@ public enum Scale {
 			}
 		}
 		return missingNotes;
-	}
-	
-	public int getIndexOfNote(String note) {
-		for (int i = 0; i < notes.length; i++) {
-			if (notes[i].equals(note)) {
-				return i;
-			}
-		}
-		return -1;
 	}
 	
 	public static Scale getScaleByName(String name) {
