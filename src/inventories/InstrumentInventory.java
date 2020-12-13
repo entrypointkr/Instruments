@@ -134,11 +134,15 @@ public class InstrumentInventory implements InventoryHolder {
 
     private ItemStack createChordsIcon() {
         Material mat = Material.LIME_STAINED_GLASS_PANE;
-        if(!this.chordsEnabled) mat = Material.RED_STAINED_GLASS_PANE;
+        String name = ChatColor.GREEN + "Chords";
+        if(!this.chordsEnabled)  {
+            mat = Material.RED_STAINED_GLASS_PANE;
+            name = ChatColor.RED + "Chords";
+        }
 
         ItemStack icon = new ItemStack(mat, 1);
         ItemMeta itemMeta = icon.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.RED + "Chords");
+        itemMeta.setDisplayName(name);
         icon.setItemMeta(itemMeta);
         return icon;
     }
@@ -154,6 +158,10 @@ public class InstrumentInventory implements InventoryHolder {
 
     public void toggleChords() {
         this.chordsEnabled = !this.chordsEnabled;
+    }
+
+    public boolean getChordsEnabled() {
+        return this.chordsEnabled;
     }
 
     @Override
