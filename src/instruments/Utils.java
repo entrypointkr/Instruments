@@ -1,5 +1,7 @@
 package instruments;
 
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -70,4 +72,11 @@ public class Utils {
 		}
 		return -1;
 	}
+
+	public static String formatString(String key) {
+		String newKey = key.toLowerCase().replaceAll("_", " ");
+		newKey = StringUtils.capitalize(newKey);
+		return ChatColor.RESET + newKey;
+	}
+
 }

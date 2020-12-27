@@ -1,6 +1,7 @@
 package instruments;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.text.WordUtils;
 
@@ -13,7 +14,7 @@ public enum Scale {
 	C_MAJOR_BLUES, CSHARP_MAJOR_BLUES, D_MAJOR_BLUES, DSHARP_MAJOR_BLUES, E_MAJOR_BLUES, F_MAJOR_BLUES, FSHARP_MAJOR_BLUES, G_MAJOR_BLUES,
 	GSHARP_MAJOR_BLUES, A_MAJOR_BLUES, ASHARP_MAJOR_BLUES, B_MAJOR_BLUES;
 
-	String[] notes = new String[] {"C", "C#", "D", "D#", "E", "F","F#", "G", "G#", "A", "A#", "B"}; 
+	public static final String[] notes = new String[] {"C", "C#", "D", "D#", "E", "F","F#", "G", "G#", "A", "A#", "B"};
 	
 	public String getName() {
 		String name = this.toString();

@@ -2,6 +2,7 @@ package inventories;
 
 import instruments.Instruments;
 import instruments.Scale;
+import instruments.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,7 +24,7 @@ public class InstrumentInventory implements InventoryHolder {
     private boolean chordsEnabled;
 
     public InstrumentInventory(InstrumentType instrumentType) {
-        inv = Bukkit.createInventory(this, 54, "Instruments: " + instrumentType.toString());
+        inv = Bukkit.createInventory(this, 54, "Instruments: " + Utils.formatString(instrumentType.toString()));
         this.instrumentType = instrumentType;
     }
 
@@ -148,8 +149,7 @@ public class InstrumentInventory implements InventoryHolder {
     }
 
     private ItemStack createHotBarInstrument(String name) {
-        Material instrumentMaterial = this.instrumentType.getMaterial();
-        ItemStack hotBarInstrument = new ItemStack(instrumentMaterial, 1);
+        ItemStack hotBarInstrument = this.instrumentType.getItemStack();
         ItemMeta itemMeta = hotBarInstrument.getItemMeta();
         itemMeta.setDisplayName(ChatColor.GREEN + name);
         hotBarInstrument.setItemMeta(itemMeta);

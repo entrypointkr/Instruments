@@ -3,7 +3,9 @@ package instruments.listeners;
 import instruments.Instrument;
 import instruments.InstrumentType;
 import instruments.Instruments;
+import instruments.Scale;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,39 +30,59 @@ public class PlayerInteract implements Listener {
 
             if(!instrument.isHotBarMode()) return;
 
-            if(!event.getItem().getType().equals(instrument.getInstrumentType().getMaterial())) return;
+            if(InstrumentType.getInstrumentTypeByItemStack(event.getItem()) == null) return;
 
-            org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument.valueOf(instrument.getInstrumentType().toString());
+            // Prevent players from using the wooden hoe item
+            if(this.isUsingHoe(event)) event.setCancelled(true);
 
             int octave = 0;
             if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 octave = 1;
             }
 
-            String text = ChatColor.stripColor(event.getItem().getItemMeta().getDisplayName());
-            String note = text.charAt(0) + "";
-            boolean isSharp = text.length() > 1;
+            String note = ChatColor.stripColor(event.getItem().getItemMeta().getDisplayName());
 
-            Note newNote = Note.natural(octave, Note.Tone.valueOf(note));
-            if(isSharp) newNote = Note.sharp(octave, Note.Tone.valueOf(note));
+            boolean foundNote = false;
+            for(String scaleNote : Scale.notes) {
+                if(scaleNote.equals(note)) {
+                    foundNote = true;
+                    break;
+                }
+            }
 
-            p.playNote(p.getLocation(), bukkitInstrument, newNote);
+            if(!foundNote) return;
+
+            instrument.playNote(note, octave);
             return;
         }
 
         if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
 
-        InstrumentType instrumentType = null;
-        for(InstrumentType type : InstrumentType.values()) {
-            if(type.getMaterial().equals(event.getItem().getType())) {
-                instrumentType = type;
-                break;
-            }
-        }
+        InstrumentType instrumentType = InstrumentType.getInstrumentTypeByItemStack(event.getItem());
 
         if(instrumentType == null) return;
 
+        if(this.isUsingHoe(event)) event.setCancelled(true);
+
         new Instrument(instrumentType, p).play();
+    }
+
+    private boolean isUsingHoe(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return false;
+
+        Material clicked = event.getClickedBlock().getType();
+
+        if (clicked != Material.DIRT &&
+                clicked != Material.GRASS_BLOCK
+                && clicked != Material.GRASS_PATH
+                && clicked != Material.COARSE_DIRT)
+            return false;
+
+        if (event.getItem() == null)
+            return false;
+
+        return true;
     }
 
 }

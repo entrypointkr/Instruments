@@ -4,6 +4,7 @@ version: '0.1'
 description: Adds various instruments to your server
 author: CupOfCode
 api-version: 1.14
+depend: [ProtocolLib]
 commands:
   instruments:
-    description: play an instruments
+    description: all commands related to Instruments

@@ -68,23 +68,13 @@ public class InventoryClick implements Listener {
                         boolean minor = e.getClick().equals(ClickType.SHIFT_LEFT) ? true : false;
                         String[] notes = minor ? Utils.getMinorTriad(note) : Utils.getMajorTriad(note);
                         for(int i = 0; i < notes.length; i++) {
-                            if(notes[i].length() > 1) {
-                                p.playNote(p.getLocation(), bukkitInstrument, Note.sharp(octave, Note.Tone.valueOf(notes[i].charAt(0) + "")));
-                            } else {
-                                p.playNote(p.getLocation(), bukkitInstrument, Note.natural(octave, Note.Tone.valueOf(notes[i])));
-                            }
-
+                            instrument.playNote(note, octave);
                         }
                         return;
                     }
                 }
 
-                boolean sharp = e.getCurrentItem().getType().equals(Material.WHITE_STAINED_GLASS_PANE) ? false : true;
-                if(sharp) {
-                    p.playNote(p.getLocation(), bukkitInstrument, Note.sharp(octave, Note.Tone.valueOf(note)));
-                } else {
-                    p.playNote(p.getLocation(), bukkitInstrument, Note.natural(octave, Note.Tone.valueOf(note)));
-                }
+                instrument.playNote(note, octave);
                 return;
             }
 

@@ -1,6 +1,7 @@
 package inventories;
 
 import instruments.Instruments;
+import instruments.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ public class ScalesInventory implements InventoryHolder {
 	private int page;
 
 	public ScalesInventory(InstrumentType instrumentType) {
-		inv = Bukkit.createInventory(this, 54, instrumentType.toString() + " Scales");
+		inv = Bukkit.createInventory(this, 54, Utils.formatString(instrumentType.toString()) + " Scales");
 		this.instrumentType = instrumentType;
 	}
 

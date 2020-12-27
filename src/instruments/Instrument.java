@@ -3,13 +3,12 @@ package instruments;
 import inventories.ScalesInventory;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import inventories.InstrumentInventory;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Instrument {
 
@@ -28,6 +27,27 @@ public class Instrument {
         this.scalesInventory = new ScalesInventory(this.instrumentType);
 
         this.instance.getInstrumentManager().put(player, this);
+    }
+
+    public void playNote(String note, int octave) {
+        InstrumentNote instrumentNote = InstrumentNote.getNoteByKey(note);
+
+        if(instrumentNote == null) return;
+
+        float pitch = octave == 0 ? instrumentNote.getFirstPitch() : instrumentNote.getSecondPitch();
+        this.player.getWorld().playSound(player.getLocation(),
+                this.instrumentType.getSound(), SoundCategory.RECORDS, (float) 5.0, pitch);
+
+        Location playerLoc = player.getLocation();
+
+        double xOffset = ThreadLocalRandom.current().nextDouble(-1, 1);
+        double zOffset = ThreadLocalRandom.current().nextDouble(-1, 1);
+        Location particleLoc = new Location(this.player.getWorld(), playerLoc.getX() + xOffset, playerLoc.getY() + 1.5, playerLoc.getZ() + zOffset);
+
+        double particleColor = instrumentNote.getColor();
+        if(octave == 1) particleColor = particleColor + 12;
+
+        this.player.getWorld().spawnParticle(Particle.NOTE, particleLoc, 0, particleColor, 0.0d, 0.0d, 0.1d);
     }
 
     public void play() {
