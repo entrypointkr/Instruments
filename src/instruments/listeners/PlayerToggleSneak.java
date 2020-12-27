@@ -36,7 +36,6 @@ public class PlayerToggleSneak implements Listener {
             instrument.setHotBarMode(false);
             instrument.play();
         }
-
     }
 
 }

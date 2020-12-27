@@ -1,6 +1,6 @@
 main: instruments.Instruments
 name: Instruments
-version: '0.1'
+version: '1.0'
 description: Adds various instruments to your server
 author: CupOfCode
 api-version: 1.14

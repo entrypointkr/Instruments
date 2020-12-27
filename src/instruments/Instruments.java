@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import instruments.bstats.Metrics;
 import instruments.commands.InstrumentsCommand;
 import instruments.listeners.*;
 import org.bukkit.Bukkit;
@@ -49,7 +50,8 @@ public class Instruments extends JavaPlugin {
                 new PlayerToggleSneak(),
                 new PlayerDrop(),
                 new PlayerPickup(),
-                new PlayerJoin()
+                new PlayerJoin(),
+                new PlayerQuit()
         );
 
         if(config.getBoolean("settings.instruments.recipe.enabled"))
@@ -61,7 +63,6 @@ public class Instruments extends JavaPlugin {
         protocolManager.addPacketListener(
                 new PacketAdapter(this, ListenerPriority.NORMAL,
                         PacketType.Play.Server.ANIMATION) {
-
                     @Override
                     public void onPacketSending(PacketEvent event) {
                         if(event.getPacketType() == PacketType.Play.Server.ANIMATION) {
@@ -79,7 +80,27 @@ public class Instruments extends JavaPlugin {
                         }
                     }
                 });
+
+        // Add bStats
+        Metrics metrics = new Metrics(this, 9792);
+        Bukkit.getLogger().info("[Instruments] bStats: " + metrics.isEnabled() + " plugin ver: " + getDescription().getVersion());
+
+        metrics.addCustomChart(new Metrics.SimplePie("plugin_version", () -> getDescription().getVersion()));
     }
+
+    @Override
+    public void onDisable() {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(!instrumentManager.containsKey(player)) continue;
+
+            if(instrumentManager.get(player).isHotBarMode())
+                Utils.loadInventory(player);
+
+            instrumentManager.remove(player);
+        }
+    }
+
+
 
     private void registerListeners(Listener... listeners) {
         Arrays.stream(listeners).forEach(listener -> getServer().getPluginManager().registerEvents(listener, this));
@@ -333,6 +354,7 @@ public class Instruments extends JavaPlugin {
 
         defaultConfig.put("settings.instruments.recipe.enabled", true);
         defaultConfig.put("settings.instruments.resourcepack.enabled", true);
+        defaultConfig.put("settings.instruments.permissions", true);
 
         for (String key : defaultConfig.keySet()) {
             if(!config.contains(key)) {
@@ -385,7 +407,6 @@ public class Instruments extends JavaPlugin {
 
             String ingredientsPath = configPath + ".ingredients";
 
-            Bukkit.getLogger().warning(instrumentKey);
             for(String ingredientKey : config.getConfigurationSection(ingredientsPath).getKeys(false)){
                 recipe.setIngredient(ingredientKey.charAt(0), Material.valueOf((String) config.get(ingredientsPath + "." + ingredientKey)));
             }

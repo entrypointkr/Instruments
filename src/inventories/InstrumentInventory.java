@@ -77,7 +77,9 @@ public class InstrumentInventory implements InventoryHolder {
         };
 
         // Sets white keys
+        String whiteColor = ChatColor.AQUA + "";
         for(int i = 0; i < 2; i++) {
+            if(i == 1) whiteColor = ChatColor.GREEN + "";
             for(int j = 0; j < 7; j++) {
                 int base;
                 if(i == 0) {
@@ -86,12 +88,14 @@ public class InstrumentInventory implements InventoryHolder {
                     base = 46;
                 }
 
-                inv.setItem(base + j, this.createTile(Material.WHITE_STAINED_GLASS_PANE, ChatColor.GREEN + naturalNotes[j]));
+                inv.setItem(base + j, this.createTile(Material.WHITE_STAINED_GLASS_PANE, whiteColor + naturalNotes[j]));
             }
         }
 
         // Sets black keys
+        String blackColor = ChatColor.DARK_AQUA + "";
         for(int i = 0; i < 2; i++) {
+            if(i == 1) blackColor = ChatColor.DARK_GREEN + "";
             int keyIndex = 0;
             for(int j = 0; j < 6; j++) {
                 int base;
@@ -102,7 +106,7 @@ public class InstrumentInventory implements InventoryHolder {
                 }
 
                 if(j != 3) {
-                    inv.setItem(base + j, this.createTile(Material.BLACK_STAINED_GLASS_PANE, ChatColor.DARK_GREEN + sharpNotes[keyIndex]));
+                    inv.setItem(base + j, this.createTile(Material.BLACK_STAINED_GLASS_PANE, blackColor + sharpNotes[keyIndex]));
                     keyIndex++;
                 }
             }
