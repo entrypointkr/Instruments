@@ -51,22 +51,12 @@ public class InventoryClick implements Listener {
 			if (e.getClick() == ClickType.DOUBLE_CLICK)
 				return;
 			
-			String itemName = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
-
 			if (e.getCurrentItem().getType().equals(Material.PAPER)) {
 				instrument.playScales();
 				return;
 			}
 
-			if (itemName.contains("Chords")) {
-				instrument.getInstrumentInventory().toggleChords();
-				instrument.play();
-				return;
-			}
-
-			org.bukkit.Instrument bukkitInstrument = org.bukkit.Instrument
-					.valueOf(instrument.getInstrumentType().toString());
-			boolean useChords = instrument.getInstrumentInventory().getChordsEnabled();
+			boolean useChords = true;
 
 			int octave = 1;
 			if (e.getRawSlot() > 26)
