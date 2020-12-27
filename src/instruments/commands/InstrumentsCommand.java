@@ -2,7 +2,9 @@ package instruments.commands;
 
 import instruments.Instrument;
 import instruments.InstrumentType;
+import instruments.Instruments;
 import instruments.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class InstrumentsCommand implements CommandExecutor {
+
+    private Instruments instance = Instruments.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -20,12 +24,20 @@ public class InstrumentsCommand implements CommandExecutor {
         Player p = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("instruments")) {
+            if(instance.getConfig().getBoolean("settings.instruments.permissions")
+                    && !p.hasPermission("instruments.use"))
+                return false;
+
             if(args.length == 0) {
-                sendHelpMessage(p);
+                this.sendUsageMessage(p);
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("list")) {
+                if(instance.getConfig().getBoolean("settings.instruments.permissions")
+                        && !p.hasPermission("instruments.list"))
+                    return false;
+
                 String instrumentString = "";
                 for (InstrumentType instrumentType : InstrumentType.values()) {
                     instrumentString += instrumentType.getKey() + ", ";
@@ -36,36 +48,44 @@ public class InstrumentsCommand implements CommandExecutor {
                 return true;
             }
 
-            if(args.length == 2 && args[0].equalsIgnoreCase("give")) {
-                InstrumentType foundType = null;
-                for (InstrumentType instrumentType : InstrumentType.values()) {
-                    if (instrumentType.toString().toLowerCase().equals(args[1].toLowerCase())) {
-                        foundType = instrumentType;
-                        break;
-                    }
+            if(args.length == 3 && args[0].equalsIgnoreCase("give")) {
+                if(instance.getConfig().getBoolean("settings.instruments.permissions")
+                        && !p.hasPermission("instruments.give"))
+                    return false;
+
+                String selectedInstrument = args[2];
+                String playerName = args[1];
+
+                Player givePlayer = Bukkit.getPlayer(playerName);
+
+                if(givePlayer == null) {
+                    p.sendMessage(ChatColor.RED + "Could not find online player " + playerName);
+                    return true;
                 }
 
-                if (foundType == null) {
-                    p.sendMessage(ChatColor.RED + "Could not find instrument " + args[0]);
+                InstrumentType instrumentType = InstrumentType.getInstrumentTypeByKey(selectedInstrument);
+
+                if (instrumentType == null) {
+                    p.sendMessage(ChatColor.RED + "Could not find instrument " + selectedInstrument);
                     p.sendMessage(ChatColor.RED + "For a list of available instruments type /instruments list");
                     return true;
                 }
 
-                p.getInventory().addItem(foundType.getItemStack());
+                givePlayer.getInventory().addItem(instrumentType.getItemStack());
                 return true;
             }
 
-
-            sendHelpMessage(p);
-            return false;
+            this.sendUsageMessage(p);
+            return true;
         }
 
         return false;
     }
 
-    private void sendHelpMessage(Player p) {
-        p.sendMessage(ChatColor.RED + "Please provide an instrument. Ex: /instruments give guitar");
-        p.sendMessage(ChatColor.RED + "For a list of available instruments type /instruments list");
+    private void sendUsageMessage(Player player) {
+        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Instruments v" + instance.getDescription().getVersion());
+        player.sendMessage(ChatColor.RED + "/instruments give [player] [instrument]");
+        player.sendMessage(ChatColor.RED + "/instruments list");
     }
 
 }
