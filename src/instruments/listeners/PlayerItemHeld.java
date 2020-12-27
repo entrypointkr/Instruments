@@ -24,7 +24,10 @@ public class PlayerItemHeld implements Listener {
 
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
 
-        if(item == null || item.getItemMeta() == null) return;
+        if(item == null || item.getItemMeta() == null) {
+            player.getInventory().setHeldItemSlot(0);
+            return;
+        }
 
         String note = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
