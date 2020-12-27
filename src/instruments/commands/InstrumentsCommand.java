@@ -28,7 +28,7 @@ public class InstrumentsCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("list")) {
                 String instrumentString = "";
                 for (InstrumentType instrumentType : InstrumentType.values()) {
-                    instrumentString += instrumentType.toString().toLowerCase() + ", ";
+                    instrumentString += instrumentType.getKey() + ", ";
                 }
 
                 p.sendMessage(ChatColor.RED + "Supported instruments:");
