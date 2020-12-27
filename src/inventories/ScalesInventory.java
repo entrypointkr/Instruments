@@ -20,6 +20,7 @@ public class ScalesInventory implements InventoryHolder {
 	private InstrumentType instrumentType;
 	private Instruments instance = Instruments.getInstance();
 	private int page;
+	private boolean quickPlay;
 
 	public ScalesInventory(InstrumentType instrumentType) {
 		inv = Bukkit.createInventory(this, 54, Utils.formatString(instrumentType.toString()) + " Scales");
@@ -33,6 +34,7 @@ public class ScalesInventory implements InventoryHolder {
 		fillScales(this.page);
 
 		inv.setItem(0, createInstrumentIcon());
+		inv.setItem(8, createQuickPlayOption());
 		inv.setItem(45, createTile(Material.ARROW, "Previous Page"));
 		inv.setItem(53, createTile(Material.ARROW, "Next Page"));
 
@@ -76,6 +78,16 @@ public class ScalesInventory implements InventoryHolder {
 		return icon;
 	}
 
+	private ItemStack createQuickPlayOption() {
+		Material material = this.quickPlay ? Material.LIME_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
+		String color = this.quickPlay ? ChatColor.GREEN + "" : ChatColor.RED + "";
+		ItemStack icon = new ItemStack(material, 1);
+		ItemMeta itemMeta = icon.getItemMeta();
+		itemMeta.setDisplayName(color + "Quick Play");
+		icon.setItemMeta(itemMeta);
+		return icon;
+	}
+
 	public int getPage() {
 		return page;
 	}
@@ -87,5 +99,13 @@ public class ScalesInventory implements InventoryHolder {
 	@Override
 	public Inventory getInventory() {
 		return this.inv;
+	}
+
+	public boolean isQuickPlay() {
+		return quickPlay;
+	}
+
+	public void setQuickPlay(boolean quickPlay) {
+		this.quickPlay = quickPlay;
 	}
 }

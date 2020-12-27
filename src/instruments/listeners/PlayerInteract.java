@@ -35,6 +35,9 @@ public class PlayerInteract implements Listener {
             // Prevent players from using the wooden hoe item
             if(this.isUsingHoe(event)) event.setCancelled(true);
 
+            // Don't interact if in quick play
+            if(instrument.getScalesInventory().isQuickPlay()) return;
+
             int octave = 0;
             if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 octave = 1;

@@ -71,7 +71,7 @@ public class InventoryClick implements Listener {
 			// Player clicked a natural/sharp note
 			if (e.getCurrentItem().getType().equals(Material.WHITE_STAINED_GLASS_PANE)
 					|| e.getCurrentItem().getType().equals(Material.BLACK_STAINED_GLASS_PANE)) {
-				String note = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).charAt(0) + "";
+				String note = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
 
 				if (useChords) {
 					if (e.getClick().equals(ClickType.SHIFT_LEFT) || e.getClick().equals(ClickType.SHIFT_RIGHT)) {
@@ -109,6 +109,15 @@ public class InventoryClick implements Listener {
 					return;
 
 				instrument.playHotbar(selectedScale);
+				return;
+			}
+
+			if (e.getCurrentItem().getType().equals(Material.LIME_STAINED_GLASS_PANE) ||
+					e.getCurrentItem().getType().equals(Material.RED_STAINED_GLASS_PANE)) {
+				boolean quickPlay = instrument.getScalesInventory().isQuickPlay();
+				instrument.getScalesInventory().setQuickPlay(!quickPlay);
+
+				instrument.playScales();
 				return;
 			}
 
