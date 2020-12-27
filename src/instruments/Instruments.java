@@ -51,7 +51,9 @@ public class Instruments extends JavaPlugin {
                 new PlayerDrop(),
                 new PlayerPickup(),
                 new PlayerJoin(),
-                new PlayerQuit()
+                new PlayerQuit(),
+                new BlockBreak(),
+                new PlayerAttack()
         );
 
         if(config.getBoolean("settings.instruments.recipe.enabled"))
@@ -389,7 +391,7 @@ public class Instruments extends JavaPlugin {
 
     private void addBukkitRecipes() {
         for(String instrumentKey : config.getConfigurationSection("settings.instruments.recipe").getKeys(false)) {
-            if(instrumentKey.equals("enabled")) break;
+            if(instrumentKey.equals("enabled")) continue;
 
             if(InstrumentType.getInstrumentTypeByKey(instrumentKey) == null) {
                 Bukkit.getLogger().warning("[Instruments] Error when loading recipes, " + instrumentKey + " is not a recognized instrument.");

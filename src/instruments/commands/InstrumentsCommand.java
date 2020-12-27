@@ -43,6 +43,8 @@ public class InstrumentsCommand implements CommandExecutor {
                     instrumentString += instrumentType.getKey() + ", ";
                 }
 
+                instrumentString += "ALL";
+
                 p.sendMessage(ChatColor.RED + "Supported instruments:");
                 p.sendMessage(ChatColor.RED + instrumentString);
                 return true;
@@ -60,6 +62,13 @@ public class InstrumentsCommand implements CommandExecutor {
 
                 if(givePlayer == null) {
                     p.sendMessage(ChatColor.RED + "Could not find online player " + playerName);
+                    return true;
+                }
+
+                if(selectedInstrument.equalsIgnoreCase("all")) {
+                    for (InstrumentType instrumentType : InstrumentType.values()) {
+                       givePlayer.getInventory().addItem(instrumentType.getItemStack());
+                    }
                     return true;
                 }
 
