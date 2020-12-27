@@ -23,17 +23,19 @@ public class PlayerItemHeld implements Listener {
 
         Instrument instrument = instance.getInstrumentManager().get(player);
 
-        if(!instrument.isHotBarMode() && !instrument.getScalesInventory().isQuickPlay()) return;
+        if(!instrument.isHotBarMode() || !instrument.getScalesInventory().isQuickPlay()) return;
 
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
 
         if(item == null || item.getItemMeta() == null) {
             event.setCancelled(true);
+            player.getInventory().setHeldItemSlot(0);
             return;
         }
 
         if(item.containsEnchantment(Enchantment.LURE)) {
             event.setCancelled(true);
+            player.getInventory().setHeldItemSlot(0);
 
             instrument.getScalesInventory().toggleOctave();
             ItemMeta itemMeta = item.getItemMeta();
@@ -47,6 +49,7 @@ public class PlayerItemHeld implements Listener {
         instrument.playNote(note, instrument.getScalesInventory().getOctave());
 
         event.setCancelled(true);
+        player.getInventory().setHeldItemSlot(0);
     }
 
 }

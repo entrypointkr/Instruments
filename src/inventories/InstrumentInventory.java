@@ -61,7 +61,8 @@ public class InstrumentInventory implements InventoryHolder {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         instrumentItem.setItemMeta(itemMeta);
 
-        playerInv.setItem(8, instrumentItem);
+        if(instrument.getScalesInventory().isQuickPlay())
+            playerInv.setItem(8, instrumentItem);
 
         for(int i = 0; i < notes.size(); i++) {
             if(i + 1 >= 7)  {

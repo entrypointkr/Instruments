@@ -36,7 +36,7 @@ public class InventoryClick implements Listener {
 
 		if (instrument.isHotBarMode()) {
 			if(instrument.getScalesInventory().isQuickPlay()) {
-				if(e.getSlot() == 0 || e.getSlot() == 8) e.setCancelled(true);
+				if(e.getSlot() == 0) e.setCancelled(true);
 			}
 
 			return;
