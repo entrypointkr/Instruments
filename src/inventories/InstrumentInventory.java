@@ -64,13 +64,9 @@ public class InstrumentInventory implements InventoryHolder {
 		if (instrument.getScalesInventory().isQuickPlay())
 			playerInv.setItem(8, instrumentItem);
 
+		int offset = instrument.getScalesInventory().isQuickPlay() ? 1 : 0;
 		for (int i = 0; i < notes.size(); i++) {
-			if (i + 1 >= 7) {
-				missingNotes.add(notes.get(i));
-				continue;
-			}
-
-			playerInv.setItem(i + 1, this.createHotBarInstrument(notes.get(i)));
+			playerInv.setItem(i + offset, this.createHotBarInstrument(notes.get(i)));
 		}
 
 		int i = 0;
