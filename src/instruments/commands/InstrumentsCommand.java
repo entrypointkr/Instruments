@@ -1,9 +1,7 @@
 package instruments.commands;
 
-import instruments.Instrument;
 import instruments.InstrumentType;
 import instruments.Instruments;
-import instruments.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
