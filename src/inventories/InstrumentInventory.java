@@ -51,8 +51,11 @@ public class InstrumentInventory implements InventoryHolder {
         ArrayList<String> notes = scale.getNotes();
         ArrayList<String> missingNotes = scale.getMissingNotes();
 
+        playerInv.setItem(0, this.instrumentType.getItemStack());
+
         for(int i = 0; i < notes.size(); i++) {
-            playerInv.setItem(i, this.createHotBarInstrument(notes.get(i)));
+            if(i + 1 == 9) break;
+            playerInv.setItem(i + 1, this.createHotBarInstrument(notes.get(i)));
         }
 
         for(int i = 0; i < missingNotes.size(); i++) {

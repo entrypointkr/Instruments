@@ -20,7 +20,7 @@ public class ScalesInventory implements InventoryHolder {
 	private InstrumentType instrumentType;
 	private Instruments instance = Instruments.getInstance();
 	private int page;
-	private boolean quickPlay;
+	private boolean quickPlay = true;
 
 	public ScalesInventory(InstrumentType instrumentType) {
 		inv = Bukkit.createInventory(this, 54, Utils.formatString(instrumentType.toString()) + " Scales");

@@ -31,7 +31,7 @@ public class PlayerItemHeld implements Listener {
         // TODO: Change octave Nick
         instrument.playNote(note, 0);
 
-        player.getInventory().setHeldItemSlot(8);
+        player.getInventory().setHeldItemSlot(0);
     }
 
 }
