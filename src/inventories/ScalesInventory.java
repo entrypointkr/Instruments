@@ -126,4 +126,5 @@ public class ScalesInventory implements InventoryHolder {
 	public void setOctave(int val) {
 		octave = val;
 	}
+
 }

@@ -44,9 +44,15 @@ public class PlayerItemHeld implements Listener {
             return;
         }
 
+        
         String note = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+        
+        int octave = instrument.getScalesInventory().getOctave();
+        if (item.getItemMeta().getDisplayName().equals(ChatColor.DARK_GREEN + note))
+        	octave = Math.abs(octave - 1);
 
-        instrument.playNote(note, instrument.getScalesInventory().getOctave());
+
+        instrument.playNote(note, octave);
 
         event.setCancelled(true);
         player.getInventory().setHeldItemSlot(0);
