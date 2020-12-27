@@ -21,10 +21,12 @@ public class ScalesInventory implements InventoryHolder {
 	private Instruments instance = Instruments.getInstance();
 	private int page;
 	private boolean quickPlay = true;
+	private int octave;
 
 	public ScalesInventory(InstrumentType instrumentType) {
 		inv = Bukkit.createInventory(this, 54, Utils.formatString(instrumentType.toString()) + " Scales");
 		this.instrumentType = instrumentType;
+		octave = 0;
 	}
 
 	public void display(Player player) {
@@ -55,7 +57,7 @@ public class ScalesInventory implements InventoryHolder {
 		Scale[] scales = Scale.values();
 		for (int i = 10; i < 44 && position < scales.length; i += 2) {
 			inv.setItem(i, createTile(Material.PAPER, scales[position].getName()));
-			
+
 			position++;
 			if (i % 9 == 7)
 				i++;
@@ -107,5 +109,21 @@ public class ScalesInventory implements InventoryHolder {
 
 	public void setQuickPlay(boolean quickPlay) {
 		this.quickPlay = quickPlay;
+	}
+
+	public int getOctave() {
+		return octave;
+	}
+
+	public void toggleOctave() {
+		if (getOctave() == 0) {
+			setOctave(1);
+		} else {
+			setOctave(0);
+		}
+	}
+
+	public void setOctave(int val) {
+		octave = val;
 	}
 }
