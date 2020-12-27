@@ -2,12 +2,15 @@ package instruments.listeners;
 
 import instruments.Instrument;
 import instruments.Instruments;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerItemHeld implements Listener {
 
@@ -25,16 +28,25 @@ public class PlayerItemHeld implements Listener {
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
 
         if(item == null || item.getItemMeta() == null) {
-            player.getInventory().setHeldItemSlot(0);
+            event.setCancelled(true);
+            return;
+        }
+
+        if(item.containsEnchantment(Enchantment.LURE)) {
+            event.setCancelled(true);
+
+            instrument.getScalesInventory().toggleOctave();
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.GREEN + "Octave: " + instrument.getScalesInventory().getOctave());
+            item.setItemMeta(itemMeta);
             return;
         }
 
         String note = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 
-        // TODO: Change octave Nick
-        instrument.playNote(note, 0);
+        instrument.playNote(note, instrument.getScalesInventory().getOctave());
 
-        player.getInventory().setHeldItemSlot(0);
+        event.setCancelled(true);
     }
 
 }

@@ -1,18 +1,16 @@
 package inventories;
 
-import instruments.Instruments;
-import instruments.Scale;
-import instruments.Utils;
+import instruments.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import instruments.InstrumentType;
 
 import java.util.ArrayList;
 
@@ -46,6 +44,9 @@ public class InstrumentInventory implements InventoryHolder {
     }
 
     public void displayHotbar(Player player, Scale scale) {
+        if(!instance.getInstrumentManager().containsKey(player)) return;
+
+        Instrument instrument = instance.getInstrumentManager().get(player);
         Inventory playerInv = player.getInventory();
 
         ArrayList<String> notes = scale.getNotes();
@@ -53,8 +54,21 @@ public class InstrumentInventory implements InventoryHolder {
 
         playerInv.setItem(0, this.instrumentType.getItemStack());
 
+        ItemStack instrumentItem = this.instrumentType.getItemStack();
+        instrumentItem.addUnsafeEnchantment(Enchantment.LURE, 1);
+        ItemMeta itemMeta = instrumentItem.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.GREEN + "Octave: " + instrument.getScalesInventory().getOctave());
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        instrumentItem.setItemMeta(itemMeta);
+
+        playerInv.setItem(8, instrumentItem);
+
         for(int i = 0; i < notes.size(); i++) {
-            if(i + 1 == 9) break;
+            if(i + 1 >= 7)  {
+                missingNotes.add(notes.get(i));
+                continue;
+            }
+
             playerInv.setItem(i + 1, this.createHotBarInstrument(notes.get(i)));
         }
 
