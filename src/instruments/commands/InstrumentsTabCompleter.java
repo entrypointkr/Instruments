@@ -18,11 +18,17 @@ public class InstrumentsTabCompleter implements TabCompleter {
 			arguments.add("list");
 			arguments.add("give");
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
-			Bukkit.getOnlinePlayers().forEach(player -> arguments.add(player.getName()));
+			Bukkit.getOnlinePlayers().forEach(player -> {
+				if (player.getName().startsWith(args[1]))
+					arguments.add(player.getName());
+			});
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
 			for (InstrumentType instrument : InstrumentType.values()) {
-				arguments.add(instrument.getKey());
+				if (instrument.getKey().startsWith(args[2]))
+					arguments.add(instrument.getKey());
 			}
+			if ("all".startsWith(args[2]))
+				arguments.add("all");
 		}
 
 		return arguments;
