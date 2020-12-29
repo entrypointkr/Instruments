@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Utils {
 
-	private static HashMap<Player, HashMap<Integer, ItemStack>> inventoryMap = new HashMap<>();
+	public static HashMap<Player, HashMap<Integer, ItemStack>> inventoryMap = new HashMap<>();
 
 	private static String[] notes = new String[] { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 

@@ -19,5 +19,4 @@ public class PlayerRespawn implements Listener {
         Utils.loadInventory(player);
         instance.getInstrumentManager().remove(player);
     }
-
 }

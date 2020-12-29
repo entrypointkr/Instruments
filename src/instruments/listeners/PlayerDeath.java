@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class PlayerDeath implements Listener {
 
@@ -20,6 +23,17 @@ public class PlayerDeath implements Listener {
 
         if(instance.getInstrumentManager().get(player).isHotBarMode()) {
             event.getDrops().clear();
+
+            if(!event.getKeepInventory()) {
+                if(!Utils.inventoryMap.containsKey(player)) return;
+
+                HashMap<Integer, ItemStack> items = Utils.inventoryMap.get(player);
+                for (Integer i : items.keySet()) {
+                    event.getDrops().add(items.get(i));
+                }
+
+                instance.getInstrumentManager().remove(player);
+            }
         }
     }
 
