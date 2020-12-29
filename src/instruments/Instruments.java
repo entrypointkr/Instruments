@@ -45,7 +45,7 @@ public class Instruments extends JavaPlugin {
 		getCommand("instruments").setTabCompleter(new InstrumentsTabCompleter());
 
 		this.registerListeners(new InventoryClick(), new InventoryClose(), new PlayerInteract(),
-				new PlayerToggleSneak(), new PlayerDrop(), new PlayerPickup(), new PlayerJoin(),
+				new PlayerDrop(), new PlayerPickup(), new PlayerJoin(),
                 new PlayerQuit(), new BlockBreak(), new PlayerAttack(), new PlayerItemHeld());
 
 		if (config.getBoolean("settings.instruments.recipe.enabled"))

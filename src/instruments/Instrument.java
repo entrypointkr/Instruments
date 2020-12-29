@@ -55,7 +55,7 @@ public class Instrument {
     }
 
     public void playHotbar(Scale scale) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,  TextComponent.fromLegacyText(ChatColor.RED + "Press SHIFT to exit hotkey mode."));
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,  TextComponent.fromLegacyText(ChatColor.RED + "Right click your first item to exit."));
 
         this.hotBarMode = true;
 

@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InstrumentInventory implements InventoryHolder {
 
@@ -52,24 +54,35 @@ public class InstrumentInventory implements InventoryHolder {
 		ArrayList<String> notes = scale.getNotes();
 		ArrayList<String> missingNotes = scale.getMissingNotes();
 
-		playerInv.setItem(0, this.instrumentType.getItemStack());
+		ItemStack firstItem = this.instrumentType.getItemStack();
+		ItemMeta firstItemMeta = firstItem.getItemMeta();
+		List<String> lore = new ArrayList<String>(){
+			{
+				add(ChatColor.RED + "RIGHT CLICK TO EXIT");
+			}
+		};
 
-		ItemStack instrumentItem = this.instrumentType.getItemStack();
+		firstItemMeta.setLore(lore);
+		firstItem.setItemMeta(firstItemMeta);
+
+		playerInv.setItem(0, firstItem);
+
+		ItemStack instrumentItem = this.instrumentType.getItemStack();;
 		instrumentItem.addUnsafeEnchantment(Enchantment.LURE, 1);
 		ItemMeta itemMeta = instrumentItem.getItemMeta();
 		itemMeta.setDisplayName(ChatColor.GREEN + "Octave: " + instrument.getScalesInventory().getOctave());
 		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		instrumentItem.setItemMeta(itemMeta);
 
-		if (instrument.getScalesInventory().isQuickPlay())
+
+		if(instrument.getScalesInventory().isQuickPlay())
 			playerInv.setItem(8, instrumentItem);
 
-		int offset = instrument.getScalesInventory().isQuickPlay() ? 1 : 0;
 		for (int i = 0; i < notes.size(); i++) {
-			playerInv.setItem(i + offset, this.createHotBarInstrument(notes.get(i)));
+			playerInv.setItem(i + 1, this.createHotBarInstrument(notes.get(i)));
 		}
 
-		int i = 0;
+		int i;
 		for (i = 0; i < missingNotes.size(); i++) {
 			playerInv.setItem(i + 9, this.createHotBarInstrument(missingNotes.get(i)));
 		}

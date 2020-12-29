@@ -2,6 +2,7 @@ package instruments.listeners;
 
 import instruments.Instrument;
 import instruments.Instruments;
+import instruments.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -51,8 +52,14 @@ public class PlayerItemHeld implements Listener {
         if (item.getItemMeta().getDisplayName().equals(ChatColor.DARK_GREEN + note))
         	octave = Math.abs(octave - 1);
 
-
-        instrument.playNote(note, octave);
+        if(player.isSneaking()) {
+            String[] notes = Utils.getMajorTriad(note);
+            for (String pNote : notes) {
+                instrument.playNote(pNote, octave);
+            }
+        } else {
+            instrument.playNote(note, octave);
+        }
 
         event.setCancelled(true);
         player.getInventory().setHeldItemSlot(0);

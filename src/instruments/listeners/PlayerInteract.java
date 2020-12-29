@@ -1,9 +1,6 @@
 package instruments.listeners;
 
-import instruments.Instrument;
-import instruments.InstrumentType;
-import instruments.Instruments;
-import instruments.Scale;
+import instruments.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Note;
@@ -11,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteract implements Listener {
@@ -35,6 +33,26 @@ public class PlayerInteract implements Listener {
             // Prevent players from using the wooden hoe item
             if(this.isUsingHoe(event)) event.setCancelled(true);
 
+            // Exit player from hot play mode
+            if(p.getInventory().getHeldItemSlot() == 0) {
+                if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                    Utils.loadInventory(p);
+
+                    for (int i = 0; i < 9; i++) {
+                        if (p.getInventory().getItem(i) == null) continue;
+                        if (p.getInventory().getItem(i).equals(instrument.getInstrumentType().getItemStack())) {
+                            p.getInventory().setHeldItemSlot(i);
+                            break;
+                        }
+                    }
+
+                    instrument.setHotBarMode(false);
+                    instrument.play();
+                }
+
+                return;
+            }
+
             // Don't interact if in quick play
             if(instrument.getScalesInventory().isQuickPlay()) return;
 
@@ -54,6 +72,14 @@ public class PlayerInteract implements Listener {
             }
 
             if(!foundNote) return;
+
+            if(p.isSneaking()) {
+                String[] notes = Utils.getMajorTriad(note);
+                for (String pNote : notes) {
+                    instrument.playNote(pNote, octave);
+                }
+                return;
+            }
 
             instrument.playNote(note, octave);
             return;
