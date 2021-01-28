@@ -1,4 +1,4 @@
-package instruments;
+package net.cupofcode.instruments;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;

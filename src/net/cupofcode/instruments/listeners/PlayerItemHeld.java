@@ -1,7 +1,6 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.*;
-import org.bukkit.Bukkit;
+import net.cupofcode.instruments.*;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

@@ -1,7 +1,7 @@
-main: instruments.Instruments
+main: net.cupofcode.instruments.Instruments
 name: Instruments
 version: '1.4'
-description: Adds various instruments to your server
+description: Adds various net.cupofcode.instruments to your server
 author: CupOfCode
 api-version: 1.14
 depend: [ProtocolLib]

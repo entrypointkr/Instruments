@@ -1,23 +1,18 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.Instrument;
-import instruments.Instruments;
-import instruments.Scale;
-import instruments.Utils;
-import inventories.ScalesInventory;
+import net.cupofcode.instruments.Instrument;
+import net.cupofcode.instruments.Instruments;
+import net.cupofcode.instruments.Scale;
+import net.cupofcode.instruments.Utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Note;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.ItemStack;
 
 public class InventoryClick implements Listener {
 

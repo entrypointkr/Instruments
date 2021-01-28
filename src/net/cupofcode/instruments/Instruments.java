@@ -1,4 +1,4 @@
-package instruments;
+package net.cupofcode.instruments;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -6,10 +6,10 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import instruments.bstats.Metrics;
-import instruments.commands.InstrumentsCommand;
-import instruments.commands.InstrumentsTabCompleter;
-import instruments.listeners.*;
+import net.cupofcode.instruments.bstats.Metrics;
+import net.cupofcode.instruments.commands.InstrumentsCommand;
+import net.cupofcode.instruments.commands.InstrumentsTabCompleter;
+import net.cupofcode.instruments.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -40,15 +40,15 @@ public class Instruments extends JavaPlugin {
 
 		loadConfig();
 
-		getCommand("instruments").setExecutor(new InstrumentsCommand());
+		getCommand("net/cupofcode/instruments").setExecutor(new InstrumentsCommand());
 
-		getCommand("instruments").setTabCompleter(new InstrumentsTabCompleter());
+		getCommand("net/cupofcode/instruments").setTabCompleter(new InstrumentsTabCompleter());
 
 		this.registerListeners(new InventoryClick(), new InventoryClose(), new PlayerInteract(),
 				new PlayerDrop(), new PlayerPickup(), new PlayerJoin(), new PlayerDeath(),
                 new PlayerQuit(), new BlockBreak(), new PlayerAttack(), new PlayerItemHeld(), new PlayerRespawn(), new InventoryOpen());
 
-		if (config.getBoolean("settings.instruments.recipe.enabled"))
+		if (config.getBoolean("settings.net.cupofcode.instruments.recipe.enabled"))
 			this.addBukkitRecipes();
 
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -346,9 +346,9 @@ public class Instruments extends JavaPlugin {
 		this.addConfigRecipe("banjo", banjoRecipe, banjoRecipeShape);
 		this.addConfigRecipe("pling", plingRecipe, plingRecipeShape);
 
-		defaultConfig.put("settings.instruments.recipe.enabled", true);
-		defaultConfig.put("settings.instruments.resourcepack.enabled", true);
-		defaultConfig.put("settings.instruments.permissions", true);
+		defaultConfig.put("settings.net.cupofcode.instruments.recipe.enabled", true);
+		defaultConfig.put("settings.net.cupofcode.instruments.resourcepack.enabled", true);
+		defaultConfig.put("settings.net.cupofcode.instruments.permissions", true);
 
 		for (String key : defaultConfig.keySet()) {
 			if (!config.contains(key)) {
@@ -362,7 +362,7 @@ public class Instruments extends JavaPlugin {
 	private void addConfigRecipe(String itemName, HashMap<String, String> recipe, ArrayList<String> shape) {
 		HashMap<String, Object> defaultConfig = new HashMap<>();
 
-		String configLoc = "settings.instruments.recipe." + itemName;
+		String configLoc = "settings.net.cupofcode.instruments.recipe." + itemName;
 
 		defaultConfig.put(configLoc + ".shape", shape);
 
@@ -382,7 +382,7 @@ public class Instruments extends JavaPlugin {
 	}
 
 	private void addBukkitRecipes() {
-		for (String instrumentKey : config.getConfigurationSection("settings.instruments.recipe").getKeys(false)) {
+		for (String instrumentKey : config.getConfigurationSection("settings.net.cupofcode.instruments.recipe").getKeys(false)) {
 			if (instrumentKey.equals("enabled"))
 				continue;
 
@@ -396,7 +396,7 @@ public class Instruments extends JavaPlugin {
 			NamespacedKey key = new NamespacedKey(this, instrumentKey);
 			ShapedRecipe recipe = new ShapedRecipe(key, instrumentItemStack);
 
-			String configPath = "settings.instruments.recipe." + instrumentKey;
+			String configPath = "settings.net.cupofcode.instruments.recipe." + instrumentKey;
 
 			ArrayList<String> shapeArr = (ArrayList<String>) config.get(configPath + ".shape");
 			recipe.shape(shapeArr.toArray(new String[shapeArr.size()]));

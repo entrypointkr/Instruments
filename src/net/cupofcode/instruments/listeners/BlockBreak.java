@@ -1,22 +1,19 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.Instrument;
-import instruments.Instruments;
+import net.cupofcode.instruments.Instrument;
+import net.cupofcode.instruments.Instruments;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 
-public class PlayerPickup implements Listener {
+public class BlockBreak implements Listener {
 
     private Instruments instance = Instruments.getInstance();
 
     @EventHandler
-    public void onPlayerPickup(EntityPickupItemEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
-
-        Player p = (Player) event.getEntity();
+    public void onBlockBreak(BlockBreakEvent event) {
+        Player p = event.getPlayer();
 
         if(!instance.getInstrumentManager().containsKey(p)) return;
 
@@ -27,4 +24,5 @@ public class PlayerPickup implements Listener {
             return;
         }
     }
+
 }

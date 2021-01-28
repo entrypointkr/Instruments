@@ -1,4 +1,4 @@
-package instruments.bstats;
+package net.cupofcode.instruments.bstats;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

@@ -1,12 +1,12 @@
-package instruments;
+package net.cupofcode.instruments;
 
-import inventories.ScalesInventory;
+import net.cupofcode.instruments.inventories.ScalesInventory;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
-import inventories.InstrumentInventory;
+import net.cupofcode.instruments.inventories.InstrumentInventory;
 
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -1,4 +1,4 @@
-package instruments;
+package net.cupofcode.instruments;
 
 
 import org.bukkit.Material;

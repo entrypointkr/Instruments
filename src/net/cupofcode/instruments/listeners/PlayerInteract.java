@@ -1,14 +1,12 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.*;
+import net.cupofcode.instruments.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Note;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteract implements Listener {

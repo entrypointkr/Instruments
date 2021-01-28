@@ -1,4 +1,4 @@
-package instruments;
+package net.cupofcode.instruments;
 
 public enum InstrumentNote {
 

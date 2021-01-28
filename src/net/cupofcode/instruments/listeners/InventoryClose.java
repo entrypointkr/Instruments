@@ -1,11 +1,9 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.Instruments;
-import instruments.Utils;
+import net.cupofcode.instruments.Instruments;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class InventoryClose implements Listener {

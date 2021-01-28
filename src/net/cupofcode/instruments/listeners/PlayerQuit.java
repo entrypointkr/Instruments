@@ -1,8 +1,7 @@
-package instruments.listeners;
+package net.cupofcode.instruments.listeners;
 
-import instruments.Instrument;
-import instruments.Instruments;
-import instruments.Utils;
+import net.cupofcode.instruments.Instruments;
+import net.cupofcode.instruments.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
