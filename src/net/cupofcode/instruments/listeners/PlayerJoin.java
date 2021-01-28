@@ -17,11 +17,11 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if(instance.getConfig().getBoolean("settings.net.cupofcode.instruments.resourcepack.enabled")) {
+        if(instance.getConfig().getBoolean("settings.instruments.resourcepack.enabled")) {
             player.setResourcePack("https://www.dropbox.com/s/qav6cbju12g7ci1/CupOfCode_Orchestra_V_05.zip?dl=1");
         }
 
-        if(instance.getConfig().getBoolean("settings.net.cupofcode.instruments.recipe.enabled")) {
+        if(instance.getConfig().getBoolean("settings.instruments.recipe.enabled")) {
             for(InstrumentType instrumentType : InstrumentType.values()) {
                 player.discoverRecipe(new NamespacedKey(instance, instrumentType.getKey()));
             }

@@ -19,9 +19,9 @@ public class InstrumentsCommand implements CommandExecutor {
 			// player-only commands
 			Player p = (Player) sender;
 
-			if (cmd.getName().equalsIgnoreCase("net/cupofcode/instruments")) {
-				if (instance.getConfig().getBoolean("settings.net.cupofcode.instruments.permissions")
-						&& !p.hasPermission("net.cupofcode.instruments.use"))
+			if (cmd.getName().equalsIgnoreCase("instruments")) {
+				if (instance.getConfig().getBoolean("settings.instruments.permissions")
+						&& !p.hasPermission("instruments.use"))
 					return false;
 
 				if (args.length == 0) {
@@ -30,8 +30,8 @@ public class InstrumentsCommand implements CommandExecutor {
 				}
 
 				if (args[0].equalsIgnoreCase("list")) {
-					if (instance.getConfig().getBoolean("settings.net.cupofcode.instruments.permissions")
-							&& !p.hasPermission("net.cupofcode.instruments.list"))
+					if (instance.getConfig().getBoolean("settings.instruments.permissions")
+							&& !p.hasPermission("instruments.list"))
 						return false;
 
 					String instrumentString = "";
@@ -41,14 +41,14 @@ public class InstrumentsCommand implements CommandExecutor {
 
 					instrumentString += "ALL";
 
-					p.sendMessage(ChatColor.RED + "Supported net.cupofcode.instruments:");
+					p.sendMessage(ChatColor.RED + "Supported instruments:");
 					p.sendMessage(ChatColor.RED + instrumentString);
 					return true;
 				}
 
 				if (args.length == 3 && args[0].equalsIgnoreCase("give")) { //TODO: re-used code cuz I'm lazy, might want to clean it up
-					if (instance.getConfig().getBoolean("settings.net.cupofcode.instruments.permissions")
-							&& !p.hasPermission("net.cupofcode.instruments.give"))
+					if (instance.getConfig().getBoolean("settings.instruments.permissions")
+							&& !p.hasPermission("instruments.give"))
 						return false;
 
 					String selectedInstrument = args[2];
@@ -72,7 +72,7 @@ public class InstrumentsCommand implements CommandExecutor {
 
 					if (instrumentType == null) {
 						p.sendMessage(ChatColor.RED + "Could not find instrument " + selectedInstrument);
-						p.sendMessage(ChatColor.RED + "For a list of available net.cupofcode.instruments type /net.cupofcode.instruments list");
+						p.sendMessage(ChatColor.RED + "For a list of available instruments type /instruments list");
 						return true;
 					}
 
@@ -86,10 +86,10 @@ public class InstrumentsCommand implements CommandExecutor {
 			return false;
 		} else {
 			//any sender command
-			if (cmd.getName().equalsIgnoreCase("net/cupofcode/instruments")) {
+			if (cmd.getName().equalsIgnoreCase("instruments")) {
 				if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
-					if (instance.getConfig().getBoolean("settings.net.cupofcode.instruments.permissions")
-							&& !sender.hasPermission("net.cupofcode.instruments.give"))
+					if (instance.getConfig().getBoolean("settings.instruments.permissions")
+							&& !sender.hasPermission("instruments.give"))
 						return false;
 
 					String selectedInstrument = args[2];
@@ -113,7 +113,7 @@ public class InstrumentsCommand implements CommandExecutor {
 
 					if (instrumentType == null) {
 						sender.sendMessage(ChatColor.RED + "Could not find instrument " + selectedInstrument);
-						sender.sendMessage(ChatColor.RED + "For a list of available net.cupofcode.instruments type /net.cupofcode.instruments list");
+						sender.sendMessage(ChatColor.RED + "For a list of available instruments type /instruments list");
 						return true;
 					}
 
@@ -128,8 +128,8 @@ public class InstrumentsCommand implements CommandExecutor {
 	private void sendUsageMessage(Player player) {
 		player.sendMessage(
 				ChatColor.RED + "" + ChatColor.BOLD + "Instruments v" + instance.getDescription().getVersion());
-		player.sendMessage(ChatColor.RED + "/net.cupofcode.instruments give [player] [instrument]");
-		player.sendMessage(ChatColor.RED + "/net.cupofcode.instruments list");
+		player.sendMessage(ChatColor.RED + "/instruments give [player] [instrument]");
+		player.sendMessage(ChatColor.RED + "/instruments list");
 	}
 
 }
