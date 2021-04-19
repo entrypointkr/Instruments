@@ -36,13 +36,13 @@ public class InstrumentsCommand implements CommandExecutor {
 
 					String instrumentString = "";
 					for (InstrumentType instrumentType : InstrumentType.values()) {
-						instrumentString += instrumentType.getKey() + ", ";
+						instrumentString += instrumentType.getName().replace(" ", "_") + ", ";
 					}
 
 					instrumentString += "ALL";
 
-					p.sendMessage(ChatColor.RED + "Supported instruments:");
-					p.sendMessage(ChatColor.RED + instrumentString);
+					p.sendMessage(ChatColor.BOLD + "" + ChatColor.GREEN + "Supported instruments:");
+					p.sendMessage(ChatColor.GREEN + instrumentString);
 					return true;
 				}
 
@@ -68,7 +68,7 @@ public class InstrumentsCommand implements CommandExecutor {
 						return true;
 					}
 
-					InstrumentType instrumentType = InstrumentType.getInstrumentTypeByKey(selectedInstrument);
+					InstrumentType instrumentType = InstrumentType.getInstrumentTypeByName(selectedInstrument);
 
 					if (instrumentType == null) {
 						p.sendMessage(ChatColor.RED + "Could not find instrument " + selectedInstrument);

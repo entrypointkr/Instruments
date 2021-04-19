@@ -22,7 +22,7 @@ public class InstrumentInventory implements InventoryHolder {
 	private Instruments instance = Instruments.getInstance();
 
 	public InstrumentInventory(InstrumentType instrumentType) {
-		inv = Bukkit.createInventory(this, 54, "Instruments: " + Utils.formatString(instrumentType.toString()));
+		inv = Bukkit.createInventory(this, 54, "Instruments: " + Utils.formatString(instrumentType.getName()));
 		this.instrumentType = instrumentType;
 	}
 
@@ -155,11 +155,13 @@ public class InstrumentInventory implements InventoryHolder {
 	}
 
 	private ItemStack createInstrumentIcon() {
-		ItemStack icon = new ItemStack(Material.RED_WOOL, 1);
-		ItemMeta itemMeta = icon.getItemMeta();
-		itemMeta.setDisplayName(ChatColor.RED + this.instrumentType.toString());
-		icon.setItemMeta(itemMeta);
-		return icon;
+		
+//		ItemStack icon = new ItemStack(Material.WOODEN_HOE, 1);
+//		ItemMeta itemMeta = icon.getItemMeta();
+//		itemMeta.setDisplayName(ChatColor.RED + Utils.formatString(instrumentType.getName()));
+//		itemMeta.setCustomModelData(this.instrumentType.getModelId());
+//		icon.setItemMeta(itemMeta);
+		return this.instrumentType.getItemStack();
 	}
 
 	private ItemStack createScalesIcon() {

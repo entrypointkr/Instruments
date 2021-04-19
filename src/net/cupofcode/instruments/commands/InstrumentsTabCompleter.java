@@ -24,8 +24,8 @@ public class InstrumentsTabCompleter implements TabCompleter {
 			});
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
 			for (InstrumentType instrument : InstrumentType.values()) {
-				if (instrument.getKey().startsWith(args[2]))
-					arguments.add(instrument.getKey());
+				if (instrument.getName().startsWith(args[2]))
+					arguments.add(instrument.getName());
 			}
 			if ("all".startsWith(args[2]))
 				arguments.add("all");

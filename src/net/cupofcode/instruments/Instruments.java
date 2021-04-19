@@ -40,13 +40,21 @@ public class Instruments extends JavaPlugin {
 
 		loadConfig();
 
+		// Set instrument names & modelId
+		for (InstrumentType instrumentType : InstrumentType.values()) {
+			String name = config.getString("settings.instruments.name." + instrumentType.getKey());
+			int modelId = config.getInt("settings.instruments.modelId." + instrumentType.getKey());
+			instrumentType.setName(name);
+			instrumentType.setModelId(modelId);
+		}
+
 		getCommand("instruments").setExecutor(new InstrumentsCommand());
 
 		getCommand("instruments").setTabCompleter(new InstrumentsTabCompleter());
 
-		this.registerListeners(new InventoryClick(), new InventoryClose(), new PlayerInteract(),
-				new PlayerDrop(), new PlayerPickup(), new PlayerJoin(), new PlayerDeath(),
-                new PlayerQuit(), new BlockBreak(), new PlayerAttack(), new PlayerItemHeld(), new PlayerRespawn(), new InventoryOpen());
+		this.registerListeners(new InventoryClick(), new InventoryClose(), new PlayerInteract(), new PlayerDrop(),
+				new PlayerPickup(), new PlayerJoin(), new PlayerDeath(), new PlayerQuit(), new BlockBreak(),
+				new PlayerAttack(), new PlayerItemHeld(), new PlayerRespawn(), new InventoryOpen());
 
 		if (config.getBoolean("settings.instruments.recipe.enabled"))
 			this.addBukkitRecipes();
@@ -346,6 +354,21 @@ public class Instruments extends JavaPlugin {
 		this.addConfigRecipe("banjo", banjoRecipe, banjoRecipeShape);
 		this.addConfigRecipe("pling", plingRecipe, plingRecipeShape);
 
+		// add Instrument Name to config
+		for (InstrumentType instrumentType : InstrumentType.values()) {
+			String configLoc = "settings.instruments.name." + instrumentType.getKey();
+			if (!config.contains(configLoc)) {
+				config.set(configLoc, instrumentType.getName());
+			}
+		}
+		// add Instrument modelId to config
+		for (InstrumentType instrumentType : InstrumentType.values()) {
+			String configLoc = "settings.instruments.modelId." + instrumentType.getKey();
+			if (!config.contains(configLoc)) {
+				config.set(configLoc, instrumentType.getModelId());
+			}
+		}
+
 		defaultConfig.put("settings.instruments.recipe.enabled", true);
 		defaultConfig.put("settings.instruments.resourcepack.enabled", true);
 		defaultConfig.put("settings.instruments.permissions", true);
@@ -377,8 +400,6 @@ public class Instruments extends JavaPlugin {
 				config.set(key, defaultConfig.get(key));
 			}
 		}
-
-		this.saveConfig();
 	}
 
 	private void addBukkitRecipes() {
@@ -423,6 +444,6 @@ public class Instruments extends JavaPlugin {
 
 	@Override
 	public FileConfiguration getConfig() {
-        return config;
-    }
+		return config;
+	}
 }
