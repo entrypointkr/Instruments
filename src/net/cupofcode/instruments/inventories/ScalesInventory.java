@@ -24,7 +24,8 @@ public class ScalesInventory implements InventoryHolder {
 	private int octave;
 
 	public ScalesInventory(InstrumentType instrumentType) {
-		inv = Bukkit.createInventory(this, 54, Utils.formatString(instrumentType.toString()) + " Scales");
+		inv = Bukkit.createInventory(this, 54,
+				ChatColor.RED + Utils.formatString(instrumentType.getName()) + " Scales");
 		this.instrumentType = instrumentType;
 		octave = 0;
 	}
@@ -73,11 +74,13 @@ public class ScalesInventory implements InventoryHolder {
 	}
 
 	private ItemStack createInstrumentIcon() {
-		ItemStack icon = new ItemStack(Material.RED_WOOL, 1);
-		ItemMeta itemMeta = icon.getItemMeta();
-		itemMeta.setDisplayName(ChatColor.RED + this.instrumentType.toString());
-		icon.setItemMeta(itemMeta);
-		return icon;
+//		ItemStack icon = new ItemStack(Material.WOODEN_HOE, 1);
+//		ItemMeta itemMeta = icon.getItemMeta();
+//		itemMeta.setDisplayName(ChatColor.RED + Utils.formatString(this.instrumentType.getName()));
+//		itemMeta.setCustomModelData(this.instrumentType.getModelId());
+//		icon.setItemMeta(itemMeta);
+//		return icon;
+		return this.instrumentType.getItemStack();
 	}
 
 	private ItemStack createQuickPlayOption() {
