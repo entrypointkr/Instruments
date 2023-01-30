@@ -1,0 +1,29 @@
+plugins {
+    id 'kr.entree.spigradle' version '2.4.3'
+}
+
+group = 'net.cupofcode'
+version = '1.8.0'
+
+repositories {
+    mavenCentral()
+    protocolLib()
+}
+
+dependencies {
+    compileOnly spigot('1.19.3')
+    compileOnly protocolLib()
+}
+
+spigot {
+    name = 'Instruments'
+    description = 'Adds various net.cupofcode.instruments to your server'
+    authors = ['CupOfCode']
+    apiVersion = '1.19'
+    depends = ['ProtocolLib']
+    commands {
+        create('instruments') {
+            description = 'all commands related to Instruments'
+        }
+    }
+}
